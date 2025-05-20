@@ -44,6 +44,3 @@ Thumbs.db
 *.swp
 *.swo
 
-# User uploaded content
-/public/logos/
-/public/maps/ 

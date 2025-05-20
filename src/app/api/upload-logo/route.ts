@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import { writeFile } from 'fs/promises'
+import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
+import { existsSync } from 'fs'
 
 export async function POST(request: Request) {
   try {
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
 
     if (!file || !fileName) {
       return NextResponse.json(
-        { error: 'File and fileName are required' },
+        { error: 'Dosya ve dosya adı gereklidir' },
         { status: 400 }
       )
     }
@@ -19,15 +20,46 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    // Public/logos klasörüne kaydet
-    const path = join(process.cwd(), 'public', 'logos', fileName)
-    await writeFile(path, buffer)
+    // Public/logos klasör yolunu belirle
+    const logosDirPath = join(process.cwd(), 'public', 'logos')
+    
+    // Klasör yoksa oluştur
+    if (!existsSync(logosDirPath)) {
+      try {
+        await mkdir(logosDirPath, { recursive: true })
+        console.log(`Klasör oluşturuldu: ${logosDirPath}`)
+      } catch (mkdirError) {
+        console.error('Klasör oluşturma hatası:', mkdirError)
+        return NextResponse.json(
+          { error: 'Klasör oluşturulamadı', details: mkdirError },
+          { status: 500 }
+        )
+      }
+    }
+    
+    // Dosya yolu
+    const filePath = join(logosDirPath, fileName)
+    
+    // Dosyayı kaydet
+    try {
+      await writeFile(filePath, buffer)
+      console.log(`Dosya kaydedildi: ${filePath}`)
+    } catch (writeError) {
+      console.error('Dosya yazma hatası:', writeError)
+      return NextResponse.json(
+        { error: 'Dosya yazılamadı', details: writeError },
+        { status: 500 }
+      )
+    }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ 
+      success: true, 
+      filePath: `/logos/${fileName}` 
+    })
   } catch (error) {
-    console.error('Error uploading file:', error)
+    console.error('Dosya yükleme hatası:', error)
     return NextResponse.json(
-      { error: 'Error uploading file' },
+      { error: 'Dosya yükleme hatası', details: error },
       { status: 500 }
     )
   }
