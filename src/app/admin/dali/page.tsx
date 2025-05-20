@@ -5,11 +5,11 @@ import MapDisplay from '@/components/MapDisplay'
 import { teams } from '@/data/teams'
 
 const MAP_IMAGES = {
-  erangel: '/maps/erangel.jpg',
-  miramar: '/maps/miramar.jpg',
-  sanhok: '/maps/sanhok.jpg',
-  rondo: '/maps/rondo.jpg',
-  taego: '/maps/taego.jpg',
+  erangel: '/maps/Erangel.jpg',
+  miramar: '/maps/Miramar.jpg',
+  sanhok: '/maps/Sanhok.jpg',
+  rondo: '/maps/Rondo.jpg',
+  taego: '/maps/Taego.jpg',
 }
 
 interface DaliSpot {
