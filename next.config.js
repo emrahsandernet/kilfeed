@@ -1,30 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', '192.168.1.21'],
+    domains: ['localhost', 'mertg.com'],
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '192.168.1.21',
-        port: '3000',
+        hostname: 'mertg.com',
+        port: '4000',
         pathname: '/maps/**',
       },
       {
         protocol: 'http',
-        hostname: '192.168.1.21',
-        port: '3000',
+        hostname: 'mertg.com',
+        port: '4000',
         pathname: '/logos/**',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
+        protocol: 'https',
+        hostname: 'mertg.com',
+        port: '',
         pathname: '/maps/**',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
+        protocol: 'https',
+        hostname: 'mertg.com',
+        port: '',
         pathname: '/logos/**',
       },
     ],
